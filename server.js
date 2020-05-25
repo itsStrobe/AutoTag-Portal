@@ -15,5 +15,5 @@ app.get('/*', function(req, res) {
 https.createServer({
   key: fs.readFileSync('./key.pem'),
   cert: fs.readFileSync('./cert.pem'),
-  passphrase: 'autotagportal'
-}, app).listen(process.env.PORT || 4202);
+  passphrase: process.env.SSL_CERT_PASSPHRASE
+}, app).listen(process.env.PORT || 4200, '0.0.0.0');
