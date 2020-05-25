@@ -1,0 +1,35 @@
+<h1 mat-dialog-title class="accent-light-color">{{project.name}}</h1>
+<mat-dialog-content>
+  <div class="flex-wrapper">
+    <div class="content">
+      <mat-card>
+        <h3 class="accent-light-color">{{projectType}}</h3>
+        <h4 class="accent-light-color">Created: {{project.created | date: 'mediumDate'}}</h4>
+        <h4 class="accent-light-color">Last updated: {{project.lastUpdate | date: 'mediumDate'}}</h4>
+        <br>
+        {{project.description}}
+      </mat-card>
+    </div>
+    <div class="actions">
+      <mat-card>
+        <button mat-raised-button (click)="manualTag()" color="accent" type="button" matTooltip="Manually tag or check tagged examples">Manual
+          tag / Revise</button>
+        <button mat-raised-button color="accent" type="button" [matTooltip]="getAutoTagTooltip()"
+          [disabled]="autoTagDisabled()">Auto tag</button>
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-progress-bar color="accent" [value]="completion"></mat-progress-bar>
+        {{completion}}% tagged
+      </mat-card>
+      <br>
+      <mat-card>
+        <button mat-raised-button color="accent" type="button" [matTooltip]="getExportTooltip()"
+          [disabled]="exportDisabled()">Export</button>
+      </mat-card>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

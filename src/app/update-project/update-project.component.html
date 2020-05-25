@@ -1,0 +1,33 @@
+<form [formGroup]="newProjectForm" novalidate (ngSubmit)="onSubmit()">
+    <h2 mat-dialog-title class="accent-light-color">Update Project</h2>
+    <h4 mat-dialog-title class="accent-light-color">Last updated: {{project.lastUpdate | date: 'mediumDate'}}</h4>
+    <mat-dialog-content>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width" appearance="standard" color="accent">
+                    <mat-label>Project title</mat-label>
+                    <input matInput placeholder="Project title" formControlName="title" required>
+                    <mat-error *ngIf="newProjectForm.controls['title'].hasError('required')">
+                        Title is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width" appearance="standard" color="accent">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput placeholder="A short description of your project" formControlName="description"
+                        cdkTextareaAutosize required></textarea>
+                    <mat-error *ngIf="newProjectForm.controls['description'].hasError('required')">
+                        Description is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="accent" [disabled]="!newProjectForm.valid" type="submit">Submit</button>
+    </mat-dialog-actions>
+</form>

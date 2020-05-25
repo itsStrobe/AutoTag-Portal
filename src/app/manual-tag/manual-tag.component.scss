@@ -1,0 +1,39 @@
+table {
+  width: 100%;
+}
+
+.example-table-paginator-container {
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+.example-table-container {
+  max-height: 15vw;
+  overflow: auto;
+}
+
+.example-cell {
+  cursor: pointer;
+}
+
+.example-content {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.tag-buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.tag-button {
+  margin: 5px;
+}
+
+.action-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+}

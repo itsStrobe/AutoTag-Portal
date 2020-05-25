@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+
+// Custom theme to access lighter and darker shades of theme colors.
+@mixin custom-color-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  // Styles affected by the theme.
+  .accent-light-color {
+    color: mat-color($accent, lighter);
+  }
+}

@@ -1,0 +1,11 @@
+<div class="new-project-button-container">
+  <button (click)="newProject()" mat-fab color="accent" class="new-project-button">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<br><br>
+<div class="loading" *ngIf="loading">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+<app-projects-dashboard [projects]="projects" (projectSelected)="onProjectSelected($event)"
+  (projectUpdate)="onProjectUpdate($event)" (projectDeleted)="onProjectDeleted($event)" *ngIf="!loading"></app-projects-dashboard>

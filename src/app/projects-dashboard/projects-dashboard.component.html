@@ -1,0 +1,30 @@
+<div class="grid-container">
+  <mat-grid-list [cols]="columns | async" rowHeight="250px">
+    <mat-grid-tile *ngFor="let card of cards" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card matRipple class="dashboard-card mdc-card__primary-action" (click)="selectProject(card.project)"
+        aria-label="card.title">
+        <mat-card-header>
+          <mat-card-title class="accent-light-color">
+            {{card.title}}
+            <button mat-icon-button (click)="$event.stopPropagation()"
+              class="settings-button accent-light-color" [matMenuTriggerFor]="menu">
+              <mat-icon>settings</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="updateProject(card.project)">Update</button>
+              <button mat-menu-item (click)="deleteProject(card.project)">Delete</button>
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle class="accent-light-color">
+            {{card.projectType}}<br>
+            Created: {{card.created | date: 'mediumDate'}}<br>
+            Last edited: {{card.lastUpdate | date: 'mediumDate'}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <div>{{(card.description.length>215)? (card.description | slice:0:215)+'...':(card.description)}}</div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

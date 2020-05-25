@@ -1,0 +1,16 @@
+<div fxLayout fxLayoutAlign="center center" style="height: 100%;">
+  <mat-spinner *ngIf="isLoading" color="accent"></mat-spinner>
+  <mat-card *ngIf="!isLoading" fxLayout="column" fxFlex="40" fxFlex.sm="60" fxFlex.xs="100" fxLayoutGap="30px" style="padding: 40px;">
+    <div fxLayout="row" fxLayoutAlign="center center" class="title">
+      AutoTag
+    </div>
+    <div fxLayout="row" fxFlex class="description">
+      Autotag is a tool built to easily train machine learning models to automatically tag different types of datasets.
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex>
+      <button mat-raised-button (click)="login()" color="accent" type="button" matTooltip="Login required to start creating new projects.">
+        Login with Facebook
+      </button>
+    </div>
+  </mat-card>
+</div>

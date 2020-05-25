@@ -1,0 +1,48 @@
+<h1 mat-dialog-title class="accent-light-color">{{project.name}}</h1>
+<mat-dialog-content>
+  <div class="tag-buttons-container">
+    <button mat-stroked-button [style.color]="tagToColor(tag)" class="tag-button"
+      *ngFor="let tag of tags">{{tag}}</button>
+  </div>
+  <div class="example-table-paginator-container mat-elevation-z3">
+    <div class="example-table-container">
+      <table mat-table [dataSource]="dataSource" class="example-table">
+
+        <!-- Example name column -->
+        <ng-container matColumnDef="example">
+          <th mat-header-cell *matHeaderCellDef> Examples </th>
+          <td mat-cell matRipple class="example-cell" *matCellDef="let example" (click)="selectExample(example)"
+            [style.color]="tagToColor(example.tag)">
+            {{example.name}} </td>
+        </ng-container>
+
+        <!-- Example content column -->
+        <ng-container matColumnDef="content">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let i = index" class="content-cell" [attr.rowspan]="pageSize"
+            [style.display]="i > 0 ? 'none' : ''">
+            <div class="example-content">
+              <h3 [style.color]="tagToColor(selectedExample.tag)">
+                {{selectedExample.name}}: {{selectedExample.tag? selectedExample.tag : 'None'}}
+              </h3>
+              {{selectedExample.content}}
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator [pageSize]="pageSize" [length]="100"></mat-paginator>
+  </div>
+  <div class="action-buttons-container">
+    <div>
+      <button mat-button> Previous </button>&nbsp;
+      <button mat-button> Next </button>&nbsp;
+      <button mat-flat-button color="accent"> Save and next </button>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
