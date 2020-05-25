@@ -3,6 +3,6 @@ export default {
   /*
     BACKEND STUFF
   */
-  baseUrl: 'http://localhost:4201'
+  baseUrl: 'https://auto-tag-api.herokuapp.com/'
 }
   
