@@ -1,8 +1,10 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Project } from '../projects/project';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { switchMap, startWith } from 'rxjs/operators';
+import { RowService } from '../row/row.service';
+import { Row } from '../row/row';
 
 const colors = ['#ffab91', '#b39ddb', ' #ffe082', '#c5e1a5', '#80cbc4', ' #e6ee9c ', '#f48fb1', ' #9fa8da', ' #ce93d8', ' #ef9a9a'];
 
@@ -11,39 +13,47 @@ const colors = ['#ffab91', '#b39ddb', ' #ffe082', '#c5e1a5', '#80cbc4', ' #e6ee9
   templateUrl: './manual-tag.component.html',
   styleUrls: ['./manual-tag.component.scss']
 })
-export class ManualTagComponent implements OnInit {
+export class ManualTagComponent implements OnInit, AfterViewInit {
   project: Project = this.data.project;
+  tags: string[];
 
-  displayedColumns: string[] = ['example', 'content'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  pageSize = 5;
-  selectedExample;
+  displayedColumns: string[] = ['example', 'content'];
+  rows: Row[] = [];
+  selectedRow: Row;
 
-  examples = [
-    { name : 'e1', content: 'cm dolor sit amet, consectetur adipiscing elit,\
-     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in ' },
-    { name : 'e2', content: 'cm dolor sit amet, consectetur adipiscing elit,\
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute', tag: '1' },
-    { name : 'e21', content: 'cont ent13 jakl;kjf  dasjfkdla jfkdlajfkdaj', tag: '4' },
-    { name : 'e13', content: 'content1 4jakl;kjfdasjfkdl ajfkdlaj fkdaj', tag: '5' },
-    { name : 'e14', content: 'content15  jakl;k jfd asjfkd lajfkd lajfkdaj', tag: '3' },
-    { name : 'e15', content: 'conten t16 jakl;kjf  dasjfkdl ajfkdlajfkdaj', tag: '2' },
-    { name : 'e16', content: 'content 17 jakl;kjfdasjfkdla jfkdlaj fkdaj', tag: '8' },
-    { name : 'e17', content: 'content18 jakl; kjfdasjfk dlajf kdlajfkdaj', tag: '1' },
-    { name : 'e18', content: 'content19 jakl;kjfda sjfkdlajfkdlajfkdaj', tag: '1' },
-    { name : 'e19', content: 'content1 0 jakl;k jfda sjfkdla  jfkdla jfkdaj', tag: '1' }
-  ];
-  dataSource: MatTableDataSource<any>;
-  tags = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  loadingResults = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public rowService: RowService) { }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<any>(this.examples);
-    this.dataSource.paginator = this.paginator;
-    this.selectedExample = this.examples[1];
+    this.tags = this.project.tags.map(tagObject => tagObject.tag);
+    this.rows = [
+      {dataName: 'example', rowId: 1, content: 'lorem ipsum etc etc etc etc', status: 'NotTagged', tag: null},
+      {dataName: 'example', rowId: 2, content: 'lorem ipsum etc etc etc etc', status: 'NotTagged', tag: null},
+      {dataName: 'example', rowId: 3, content: 'lorem ipsum etc etc etc etc', status: 'PreTagged', tag: 'lorem'},
+      {dataName: 'example', rowId: 4, content: 'lorem ipsum etc etc etc etc', status: 'PreTagged', tag: 'ipsum'},
+      {dataName: 'example', rowId: 5, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 'l'},
+      {dataName: 'example', rowId: 6, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 'i'},
+      {dataName: 'example', rowId: 7, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 'lorem'}
+    ];
+    this.selectedRow = this.rows[0];
+  }
+
+  ngAfterViewInit() {
+    // this.paginator.page.pipe(
+    //   startWith({}),
+    //   switchMap(() => {
+    //     this.loadingResults = true;
+    //     return this.rowService.getDataBatch(this.project.uuid,
+    //       this.paginator.pageIndex * this.paginator.pageSize,
+    //       this.paginator.pageSize);
+    //   })
+    // ).subscribe(data => {
+    //   this.rows = data;
+    //   this.selectedRow = this.rows[0];
+    //   this.loadingResults = false;
+    // });
   }
 
   tagToColor(tag: string) {
@@ -55,6 +65,19 @@ export class ManualTagComponent implements OnInit {
   }
 
   selectExample(example) {
-    this.selectedExample = example;
+    this.selectedRow = example;
+  }
+
+  setTag(tag: string) {
+    this.selectedRow.tag = tag;
+    this.selectedRow.status = 'Tagged';
+  }
+
+  previousExample() {
+
+  }
+
+  nextExample() {
+
   }
 }

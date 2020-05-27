@@ -7,7 +7,7 @@ export class Project {
   projectDataLoc: string;
   tagsLoc: string;
   taggedByLoc: string;
-  tags: string[];
+  tags: Tag[];
   silverStandardLoc: string;
   status: number;
   created: Date;
@@ -15,6 +15,11 @@ export class Project {
   lastLabelSubmission: Date;
   numTaggedRows: number;
   numTotalRows: number;
+}
+
+export class Tag {
+  uuid: string;
+  tag: string;
 }
 
 export enum ProjectType {

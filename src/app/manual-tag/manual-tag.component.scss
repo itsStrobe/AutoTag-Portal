@@ -16,10 +16,17 @@ table {
   cursor: pointer;
 }
 
-.example-content {
+.align-text-icon {
   display: flex;
-  flex-direction: column;
-  margin: 20px;
+  align-items: center;
+}
+
+.content-cell {
+  vertical-align: top;
+}
+
+.example-content {
+  margin: 20px
 }
 
 .tag-buttons-container {
@@ -35,5 +42,9 @@ table {
 
 .action-buttons-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.small-icon {
+  transform: scale(0.8);
 }

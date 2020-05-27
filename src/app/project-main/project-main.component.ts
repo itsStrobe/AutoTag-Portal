@@ -49,7 +49,7 @@ export class ProjectMainComponent implements OnInit {
   manualTag() {
     const manualTagDialogRef = this.dialog.open(ManualTagComponent, {
       data: { project: this.project },
-      minWidth: '400px',
+      minWidth: '500px',
       maxWidth: '60vw',
       autoFocus: false
     });

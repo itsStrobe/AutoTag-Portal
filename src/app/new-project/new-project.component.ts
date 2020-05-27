@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ProjectTypeUtil, ProjectType, Project, ProjectDataFormat } from '../projects/project';
+import { ProjectTypeUtil, ProjectType, Project, ProjectDataFormat, Tag } from '../projects/project';
 import { CustomValidators } from '../form-validators/custom-validators';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -107,11 +107,14 @@ export class NewProjectComponent implements OnInit {
     newProject.name = this.newProjectForm.get('title').value;
     newProject.description = this.newProjectForm.get('description').value;
     newProject.type = Number(this.newProjectForm.get('type').value);
-    newProject.tags = this.newProjectForm.get('tags').value;
+    newProject.tags = this.newProjectForm.get('tags').value.map(tag => {
+      const tagObject = new Tag();
+      tagObject.tag = tag;
+      return tagObject;
+    });
     newProject.projectDataFormat =
       this.files[0].data.type === 'text/plain' ? ProjectDataFormat.TXT : ProjectDataFormat.CSV;
     const filesData = this.files.map(file => file.data);
-    console.log(newProject);
     this.dialogRef.close({ project: newProject, files: filesData });
   }
 }
