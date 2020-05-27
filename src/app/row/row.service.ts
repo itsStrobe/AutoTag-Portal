@@ -42,8 +42,7 @@ export class RowService {
     return this.request('get', `${baseUrl}/project/${uuid}/dataBatch`, null, params);
   }
 
-  async tagRow(uuid: string, row: Row) {
-    const p = await this.request('post', `${baseUrl}/project/${uuid}/dataTag`, row);
-    console.log(p);
+  tagRow(uuid: string, row: Row) {
+    return this.request('post', `${baseUrl}/project/${uuid}/dataTag`, row);
   }
 }

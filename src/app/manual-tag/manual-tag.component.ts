@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit, HostListener } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Project } from '../projects/project';
 import { MatPaginator } from '@angular/material/paginator';
 import { switchMap, startWith } from 'rxjs/operators';
@@ -25,20 +25,18 @@ export class ManualTagComponent implements OnInit, AfterViewInit {
 
   loadingResults = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public rowService: RowService) { }
+  @HostListener('window:keyup.esc') onKeyUp() {
+    this.closeDialog();
+  }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              public dialogRef: MatDialogRef<ManualTagComponent>, public rowService: RowService) { }
 
   ngOnInit(): void {
     this.tags = this.project.tags;
-    this.rows = [
-      {dataName: 'example', rowId: 1, content: 'lorem ipsum etc etc etc etc', status: Status.PreTagged, tag: 'lorem'},
-      {dataName: 'example', rowId: 2, content: 'lorem ipsum etc etc etc etc', status: Status.PreTagged, tag: 'ipsum'},
-      {dataName: 'example', rowId: 3, content: 'lorem ipsum etc etc etc etc', status: Status.PreTagged, tag: 'lorem'},
-      {dataName: 'example', rowId: 4, content: 'lorem ipsum etc etc etc etc', status: Status.PreTagged, tag: 'ipsum'},
-      {dataName: 'example', rowId: 5, content: 'lorem ipsum etc etc etc etc', status: Status.PreTagged, tag: 's'},
-      {dataName: 'example', rowId: 6, content: 'lorem ipsum etc etc etc etc', status: Status.PreTagged, tag: 's'},
-      {dataName: 'example', rowId: 7, content: 'lorem ipsum etc etc etc etc', status: Status.PreTagged, tag: 'lorem'}
-    ];
-    this.selectedRow = this.rows[0];
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.closeDialog();
+    });
   }
 
   ngAfterViewInit() {
@@ -67,36 +65,32 @@ export class ManualTagComponent implements OnInit, AfterViewInit {
     return '';
   }
 
-  async selectExample(index: number) {
-    if (this.selectedRow.tag) {
-      await this.rowService.tagRow(this.project.uuid, this.selectedRow);
-    }
+  selectExample(index: number) {
     this.selectedIndex = index;
     this.selectedRow = this.rows[this.selectedIndex];
   }
 
-  setTag(tag: string) {
+  async setTag(tag: string) {
     this.selectedRow.tag = tag;
     this.selectedRow.status = Status.Tagged;
+    this.project = await this.rowService.tagRow(this.project.uuid, this.selectedRow);
   }
 
-  async previousExample() {
-    if (this.selectedRow.tag) {
-      await this.rowService.tagRow(this.project.uuid, this.selectedRow);
-    }
+  previousExample() {
     if (this.selectedIndex > 0) {
       this.selectedIndex--;
       this.selectedRow = this.rows[this.selectedIndex];
     }
   }
 
-  async nextExample() {
-    if (this.selectedRow.tag) {
-      await this.rowService.tagRow(this.project.uuid, this.selectedRow);
-    }
+  nextExample() {
     if (this.selectedIndex < this.rows.length - 1) {
       this.selectedIndex++;
       this.selectedRow = this.rows[this.selectedIndex];
     }
+  }
+
+  closeDialog() {
+    this.dialogRef.close({project: this.project});
   }
 }

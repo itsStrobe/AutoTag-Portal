@@ -83,6 +83,10 @@ export class ProjectsComponent implements OnInit {
       maxWidth: '50vw',
       autoFocus: false
     });
+
+    projectDialogRef.afterClosed().subscribe(result => {
+      this.refresh();
+    });
   }
 
   onProjectUpdate(project: Project) {

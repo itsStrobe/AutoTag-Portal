@@ -51,7 +51,13 @@ export class ProjectMainComponent implements OnInit {
       data: { project: this.project },
       minWidth: '500px',
       maxWidth: '60vw',
-      autoFocus: false
+      autoFocus: false,
+      disableClose: true
+    });
+
+    manualTagDialogRef.afterClosed().subscribe(result => {
+      this.project = result.project;
+      this.completion = Math.floor(this.project.numTaggedRows * 100 / this.project.numTotalRows);
     });
   }
 }
