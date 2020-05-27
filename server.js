@@ -12,8 +12,4 @@ app.get('/*', function(req, res) {
 });
 
 // Start the app by listening on the default Heroku port
-https.createServer({
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem'),
-  passphrase: 'autotagportal'
-}, app).listen(process.env.PORT || 4202);
+app.listen(process.env.PORT || 4200, '0.0.0.0');
