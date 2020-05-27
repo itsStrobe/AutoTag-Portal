@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from 'angularx-social-login';
 import { take } from 'rxjs/operators';
 import config from '../../config';
+import { Row } from './row';
 
 const baseUrl = config.baseUrl;
 
@@ -39,5 +40,10 @@ export class RowService {
                     .set('offset', batchStart.toString())
                     .set('limit', batchSize.toString());
     return this.request('get', `${baseUrl}/project/${uuid}/dataBatch`, null, params);
+  }
+
+  async tagRow(uuid: string, row: Row) {
+    const p = await this.request('post', `${baseUrl}/project/${uuid}/dataTag`, row);
+    console.log(p);
   }
 }

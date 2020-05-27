@@ -58,7 +58,7 @@
     <div class="row">
       <div class="col">
         <br>
-        <button mat-raised-button (click)="onClickFileUpload()" color="accent" matTooltip="Only txt files!"
+        <button mat-raised-button (click)="onClickFileUpload()" color="accent" matTooltip="Only txt or csv files!"
           type="button">Upload files</button>&nbsp;&nbsp;
         <button mat-raised-button [disabled]="files.length == 0" color="warn" (click)="removeAllFiles()"
           matTooltip="Delete files" type="button">Delete files</button>
