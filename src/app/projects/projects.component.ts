@@ -27,7 +27,11 @@ export class ProjectsComponent implements OnInit {
 
   async refresh() {
     this.loading = true;
-    const data = await this.projectsService.getProjects();
+    let data = await this.projectsService.getProjects();
+    data = data.map(d => {
+      d.tags = d.tags.map(tag => tag.tag);
+      return d;
+    });
     this.projects = data;
     this.loading = false;
   }

@@ -27,33 +27,33 @@ export class ManualTagComponent implements OnInit, AfterViewInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public rowService: RowService) { }
 
   ngOnInit(): void {
-    this.tags = this.project.tags.map(tagObject => tagObject.tag);
+    this.tags = this.project.tags;
     this.rows = [
       {dataName: 'example', rowId: 1, content: 'lorem ipsum etc etc etc etc', status: 'NotTagged', tag: null},
       {dataName: 'example', rowId: 2, content: 'lorem ipsum etc etc etc etc', status: 'NotTagged', tag: null},
       {dataName: 'example', rowId: 3, content: 'lorem ipsum etc etc etc etc', status: 'PreTagged', tag: 'lorem'},
       {dataName: 'example', rowId: 4, content: 'lorem ipsum etc etc etc etc', status: 'PreTagged', tag: 'ipsum'},
-      {dataName: 'example', rowId: 5, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 'l'},
-      {dataName: 'example', rowId: 6, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 'i'},
+      {dataName: 'example', rowId: 5, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 's'},
+      {dataName: 'example', rowId: 6, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 's'},
       {dataName: 'example', rowId: 7, content: 'lorem ipsum etc etc etc etc', status: 'Tagged', tag: 'lorem'}
     ];
     this.selectedRow = this.rows[0];
   }
 
   ngAfterViewInit() {
-    // this.paginator.page.pipe(
-    //   startWith({}),
-    //   switchMap(() => {
-    //     this.loadingResults = true;
-    //     return this.rowService.getDataBatch(this.project.uuid,
-    //       this.paginator.pageIndex * this.paginator.pageSize,
-    //       this.paginator.pageSize);
-    //   })
-    // ).subscribe(data => {
-    //   this.rows = data;
-    //   this.selectedRow = this.rows[0];
-    //   this.loadingResults = false;
-    // });
+    this.paginator.page.pipe(
+      startWith({}),
+      switchMap(() => {
+        this.loadingResults = true;
+        return this.rowService.getDataBatch(this.project.uuid,
+          this.paginator.pageIndex * this.paginator.pageSize,
+          this.paginator.pageSize);
+      })
+    ).subscribe(data => {
+      this.rows = data;
+      this.selectedRow = this.rows[0];
+      this.loadingResults = false;
+    });
   }
 
   tagToColor(tag: string) {

@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { AuthService } from 'angularx-social-login';
 import { take } from 'rxjs/operators';
+import config from '../../config';
 
-const baseUrl = 'http://localhost:4201';
+const baseUrl = config.baseUrl;
 
 @Injectable({
   providedIn: 'root'
