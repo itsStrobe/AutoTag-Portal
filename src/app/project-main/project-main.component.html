@@ -24,7 +24,7 @@
       </mat-card>
       <br>
       <mat-card>
-        <button mat-raised-button color="accent" type="button" [matTooltip]="getExportTooltip()"
+        <button mat-raised-button (click)="export()" color="accent" type="button" [matTooltip]="getExportTooltip()"
           [disabled]="exportDisabled()">Export</button>
       </mat-card>
     </div>

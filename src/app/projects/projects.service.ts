@@ -61,6 +61,10 @@ export class ProjectsService {
     return this.request('delete', `${baseUrl}/project/${uuid}`);
   }
 
+  exportProject(uuid: string) {
+    return this.request('get', `${baseUrl}/project/${uuid}/export`);
+  }
+
   autoTag(uuid: string) {
     console.log('autoTag');
     return this.request('post', `${baseUrl}/project/${uuid}/generate`);

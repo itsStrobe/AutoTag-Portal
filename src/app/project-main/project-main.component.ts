@@ -51,6 +51,10 @@ export class ProjectMainComponent implements OnInit {
     this.projectsService.autoTag(this.project.uuid);
   }
 
+  export() {
+    this.projectsService.exportProject(this.project.uuid);
+  }
+
   manualTag() {
     const manualTagDialogRef = this.dialog.open(ManualTagComponent, {
       data: { project: this.project },
