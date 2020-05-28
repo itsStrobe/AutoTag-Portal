@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { Project, ProjectTypeUtil } from '../projects/project';
 import { ManualTagComponent } from '../manual-tag/manual-tag.component';
 import { ProjectsService } from '../projects/projects.service';
+import * as FileSaver from 'file-saver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const minTagPercentForAutoTag = 30;
 const hundredPercent = 100;
@@ -18,7 +20,8 @@ export class ProjectMainComponent implements OnInit {
   completion: number;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public projectsService: ProjectsService,
-              public dialogRef: MatDialogRef<ProjectMainComponent>, public dialog: MatDialog) { }
+              public dialogRef: MatDialogRef<ProjectMainComponent>, public dialog: MatDialog,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.projectType = ProjectTypeUtil.getProjectTypeName(this.project.type);
@@ -49,10 +52,13 @@ export class ProjectMainComponent implements OnInit {
 
   autoTag() {
     this.projectsService.autoTag(this.project.uuid);
+    this.snackBar.open('Pre tagging project. This might take a while.', 'Dismiss');
   }
 
-  export() {
-    this.projectsService.exportProject(this.project.uuid);
+  async export() {
+    const fileData = await this.projectsService.exportProject(this.project.uuid);
+    const content = new Blob([fileData.tagsContent], {type: 'text/csv;charset=utf-8'});
+    FileSaver.saveAs(content, 'projectExport.csv');
   }
 
   manualTag() {

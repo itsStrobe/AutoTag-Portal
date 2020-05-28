@@ -73,7 +73,13 @@ export class ManualTagComponent implements OnInit, AfterViewInit {
   async setTag(tag: string) {
     this.selectedRow.tag = tag;
     this.selectedRow.status = Status.Tagged;
-    this.project = await this.rowService.tagRow(this.project.uuid, this.selectedRow);
+    const data = await this.rowService.tagRow(this.project.uuid, this.selectedRow);
+    // patch
+    data.tags = data.tags.map(t => {
+      return t.tag;
+    });
+    this.project = data;
+    console.log(this.project);
   }
 
   previousExample() {
