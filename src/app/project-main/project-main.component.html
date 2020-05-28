@@ -14,7 +14,7 @@
       <mat-card>
         <button mat-raised-button (click)="manualTag()" color="accent" type="button" matTooltip="Manually tag or check tagged examples">Manual
           tag / Revise</button>
-        <button mat-raised-button color="accent" type="button" [matTooltip]="getAutoTagTooltip()"
+        <button mat-raised-button (click)="autoTag()" color="accent" type="button" [matTooltip]="getAutoTagTooltip()"
           [disabled]="autoTagDisabled()">Auto tag</button>
       </mat-card>
       <br>

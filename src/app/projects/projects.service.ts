@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { AuthService } from 'angularx-social-login';
 import { Project } from './project';
 import { take } from 'rxjs/operators';
 import { FileUtils } from '../utils/file-utils/file-utils';
@@ -37,11 +37,6 @@ export class ProjectsService {
   }
 
   getProjects() {
-    // Dummy projects file for development.
-    // return new Promise<any>((resolve, reject) => {
-    //   this.http.request('get', 'assets/projects-test.json')
-    //   .subscribe(resolve as any, reject as any);
-    // });
     return this.request('get', `${baseUrl}/project`);
   }
 
@@ -64,5 +59,10 @@ export class ProjectsService {
 
   deleteProject(uuid: string) {
     return this.request('delete', `${baseUrl}/project/${uuid}`);
+  }
+
+  autoTag(uuid: string) {
+    console.log('autoTag');
+    return this.request('post', `${baseUrl}/project/${uuid}/generate`);
   }
 }
