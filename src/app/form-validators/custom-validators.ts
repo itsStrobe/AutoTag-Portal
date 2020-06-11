@@ -10,10 +10,10 @@ export class CustomValidators {
   }
 
   static validateNoWhitespace(c: FormControl) {
-    return c.value && c.value.trim() !== '' ? null : {
+    return ((c.value && c.value.trim() !== '') ? null : {
       noWhitespace: {
         valid: false
       }
-    };
+    });
   }
 }
