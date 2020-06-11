@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Project } from '../projects/project';
+import { CustomValidators } from '../form-validators/custom-validators';
 
 @Component({
   selector: 'app-update-project',
@@ -11,8 +12,8 @@ import { Project } from '../projects/project';
 export class UpdateProjectComponent {
   project: Project = this.data.project;
   newProjectForm = this.fb.group({
-    title: [this.project.name, Validators.required],
-    description: [this.project.description, Validators.required]
+    title: [this.project.name, [Validators.required, CustomValidators.validateNoWhitespace]],
+    description: [this.project.description, [Validators.required, CustomValidators.validateNoWhitespace]]
   });
 
   constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any,

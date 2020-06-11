@@ -19,8 +19,8 @@ export class NewProjectComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   newProjectForm = this.fb.group({
-    title: [null, Validators.required],
-    description: [null, Validators.required],
+    title: [null, [Validators.required, CustomValidators.validateNoWhitespace]],
+    description: [null, [Validators.required, CustomValidators.validateNoWhitespace]],
     type: [null, Validators.required],
     tags: [this.tags, CustomValidators.validateRequired],
     files: [this.files, CustomValidators.validateRequired]
